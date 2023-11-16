@@ -74,14 +74,12 @@ public class AuthorResource {
     @Produces(value = MediaType.APPLICATION_JSON)
     @DELETE
     @Path("/{authorId}")
-    public Author delete(@PathParam("authorId") Integer authorId, Author updatedAuthor) {
+    public void delete(@PathParam("authorId") Integer authorId, Author updatedAuthor) {
 
         AuthorsDAO authorsDAO = new AuthorsDAO();
 
         Author authors = authorsDAO.delete(authorId, updatedAuthor);
 
-
-        return null;
     }
 }
 
