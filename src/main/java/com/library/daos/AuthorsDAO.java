@@ -54,7 +54,7 @@ public class AuthorsDAO {
         return author;
     }
 
-    public Author update(@PathParam("authorId") Integer authorId, Author updatedAuthor) {
+    public Author update(Integer authorId, Author updatedAuthor) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("library_pu");
         EntityManager em = emf.createEntityManager();
         TypedQuery<Author> query = em.createQuery("select a from Author a where a.id = :authorIdKey", Author.class);
@@ -70,10 +70,8 @@ public class AuthorsDAO {
         return author;
     }
 
-    @Produces(value = MediaType.APPLICATION_JSON)
-    @DELETE
-    @Path("/{authorId}")
-    public Author delete(@PathParam("authorId") Integer authorId, Author updatedAuthor) {
+
+    public Author delete( Integer authorId) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("library_pu");
         EntityManager em = emf.createEntityManager();
         TypedQuery<Author> query = em.createQuery("select a from Author a where a.id = :authorIdKey", Author.class);
