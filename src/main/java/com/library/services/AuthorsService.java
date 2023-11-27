@@ -7,25 +7,25 @@ import java.util.List;
 
 public class AuthorsService {
 
-    public List<Author> getAllAuthors() {
+    public List<Author> getAll() {
         AuthorsDAO authorsDAO = new AuthorsDAO();
         return authorsDAO.getAll();
     }
 
 
-    public Author getAuthorById(Integer authorId) {
+    public Author getOne(Integer authorId) {
         AuthorsDAO authorsDAO = new AuthorsDAO();
         return authorsDAO.getOne(authorId);
     }
 
 
-    public List<Author> getAuthorsByName(String authorName) {
+    public List<Author> getOneName(String authorName) {
         AuthorsDAO authorsDAO = new AuthorsDAO();
         return authorsDAO.getOneName(authorName);
     }
 
 
-    public Author createAuthor(Author author) {
+    public Author create(Author author) {
         AuthorsDAO authorsDAO = new AuthorsDAO();
 
         if(author.getName() == null || author.getName().isEmpty()){
@@ -35,7 +35,7 @@ public class AuthorsService {
     }
 
 
-    public Author updateAuthor(Integer authorId, Author updatedAuthor) {
+    public Author update(Integer authorId, Author updatedAuthor) {
         AuthorsDAO authorsDAO = new AuthorsDAO();
        Author a = authorsDAO.getOne(authorId);
 
@@ -47,7 +47,7 @@ public class AuthorsService {
     }
 
 
-    public Author deleteAuthor(Integer authorId) {
+    public Author delete(Integer authorId) {
         AuthorsDAO authorsDAO = new AuthorsDAO();
         Author a = authorsDAO.getOne(authorId);
 
