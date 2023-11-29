@@ -9,10 +9,13 @@ import jakarta.persistence.TypedQuery;
 import java.util.List;
 
 public class BooksDAO {
+
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("library_pu");
+    EntityManager em = emf.createEntityManager();
+
     public List<Book> getAll() {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("library_pu");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        TypedQuery<Book> query = entityManager.createQuery("select b from Book b", Book.class);
+
+        TypedQuery<Book> query = em.createQuery("select b from Book b", Book.class);
         List<Book> list = query.getResultList();
 
         return list;
@@ -20,8 +23,7 @@ public class BooksDAO {
     }
 
     public Book getOne(Integer bookId) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("library_pu");
-        EntityManager em = emf.createEntityManager();
+
         TypedQuery<Book> query = em.createQuery("select b from Book b where b.id = :bookIdKey", Book.class);
         query.setParameter("bookIdKey", bookId);
         Book book = query.getSingleResult();
@@ -31,8 +33,7 @@ public class BooksDAO {
     }
 
     public List<Book> getOneTitle(String bookTitle) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("library_pu");
-        EntityManager em = emf.createEntityManager();
+
         TypedQuery<Book> query = em.createQuery("SELECT b FROM Book b WHERE b.title LIKE :bookTitleKey", Book.class);
         query.setParameter("bookTitleKey", "%" + bookTitle + "%");
         List<Book> book = query.getResultList();
@@ -42,8 +43,7 @@ public class BooksDAO {
     }
 
     public Book create(Book book) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("library_pu");
-        EntityManager em = emf.createEntityManager();
+
         em.getTransaction().begin();
         em.persist(book);
         em.getTransaction().commit();
@@ -52,8 +52,7 @@ public class BooksDAO {
     }
 
     public Book update(Integer bookId, Book updatedBook) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("library_pu");
-        EntityManager em = emf.createEntityManager();
+
         TypedQuery<Book> query = em.createQuery("SELECT b FROM Book b WHERE b.title LIKE :bookIdKey", Book.class);
         query.setParameter("bookIdKey", bookId);
          Book book = query.getSingleResult();
@@ -68,9 +67,8 @@ public class BooksDAO {
     }
 
 
-    public Book delete( Integer bookId) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("library_pu");
-        EntityManager em = emf.createEntityManager();
+    public void delete( Integer bookId) {
+
         TypedQuery<Book> query = em.createQuery("SELECT b FROM Book b WHERE b.title LIKE :bookIdKey", Book.class);
         query.setParameter("bookIdKey", bookId);
         Book book = query.getSingleResult();
@@ -80,7 +78,6 @@ public class BooksDAO {
             em.getTransaction().commit();
         }
 
-        return null;
     }
 }
 

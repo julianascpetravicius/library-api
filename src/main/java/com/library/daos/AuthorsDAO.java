@@ -5,17 +5,18 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 
 import java.util.List;
 
 public class AuthorsDAO {
 
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("library_pu");
+    EntityManager em = emf.createEntityManager();
+
+
     public List<Author> getAll() {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("library_pu");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        TypedQuery<Author> query = entityManager.createQuery("select a from Author a", Author.class);
+
+        TypedQuery<Author> query = em.createQuery("select a from Author a", Author.class);
         List<Author> list = query.getResultList();
 
         return list;
@@ -23,8 +24,7 @@ public class AuthorsDAO {
     }
 
     public Author getOne(Integer authorId) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("library_pu");
-        EntityManager em = emf.createEntityManager();
+
         TypedQuery<Author> query = em.createQuery("select a from Author a where a.id = :authorIdKey", Author.class);
         query.setParameter("authorIdKey", authorId);
         Author author = query.getSingleResult();
@@ -34,8 +34,7 @@ public class AuthorsDAO {
     }
 
     public List<Author> getOneName(String authorName) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("library_pu");
-        EntityManager em = emf.createEntityManager();
+
         TypedQuery<Author> query = em.createQuery("SELECT a FROM Author a WHERE a.name LIKE :authorNameKey", Author.class);
         query.setParameter("authorNameKey", "%" + authorName + "%");
         List<Author> author = query.getResultList();
@@ -45,8 +44,7 @@ public class AuthorsDAO {
     }
 
     public Author create(Author author) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("library_pu");
-        EntityManager em = emf.createEntityManager();
+
         em.getTransaction().begin();
         em.persist(author);
         em.getTransaction().commit();
@@ -55,8 +53,7 @@ public class AuthorsDAO {
     }
 
     public Author update(Integer authorId, Author updatedAuthor) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("library_pu");
-        EntityManager em = emf.createEntityManager();
+
         TypedQuery<Author> query = em.createQuery("select a from Author a where a.id = :authorIdKey", Author.class);
         query.setParameter("authorIdKey", authorId);
         Author author = query.getSingleResult();
@@ -71,9 +68,8 @@ public class AuthorsDAO {
     }
 
 
-    public Author delete( Integer authorId) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("library_pu");
-        EntityManager em = emf.createEntityManager();
+    public void delete( Integer authorId) {
+
         TypedQuery<Author> query = em.createQuery("select a from Author a where a.id = :authorIdKey", Author.class);
         query.setParameter("authorIdKey", authorId);
         Author author = query.getSingleResult();
@@ -83,6 +79,5 @@ public class AuthorsDAO {
             em.getTransaction().commit();
         }
 
-        return null;
     }
 }
